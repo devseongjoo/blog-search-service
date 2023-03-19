@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Repository;
 
 @SpringBootTest
-public class KeywordTest {
+public class KeywordCountTest {
     @Test
     void contextLoads() {
 

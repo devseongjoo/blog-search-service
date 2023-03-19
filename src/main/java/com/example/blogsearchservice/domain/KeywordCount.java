@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@Table(name = "KEYWORD_COUNT")
 @Entity
-public class Keyword implements Serializable {
+public class KeywordCount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +22,12 @@ public class Keyword implements Serializable {
     @Column(name = "COUNT")
     private Integer count;
 
-    public Keyword(String keyword, Integer count) {
+    public KeywordCount(String keyword, Integer count) {
         this.keyword = keyword;
         this.count = count;
+    }
+
+    public KeywordCount() {
+
     }
 }

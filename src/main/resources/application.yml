@@ -21,7 +21,7 @@ spring:
     driverClassName: org.h2.Driver
     password:
     username: sa
-    url: jdbc:h2:~/test
+    url: jdbc:h2:~/test;MODE=MySQL
   h2:
     console:
       path: /h2-console
