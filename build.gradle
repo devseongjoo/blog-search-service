@@ -22,14 +22,24 @@ dependencies {
 	//Spring & Spring Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'junit:junit:4.13.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// RestTemplate
 	implementation 'com.pepegar:hammock-resttemplate_2.13:0.11.3'
+//	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
+
+	//httpclient
+	implementation 'org.apache.httpcomponents:httpclient:4.5'
+
+
 
 	// Lombok
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+
+	// H2
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

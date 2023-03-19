@@ -1,0 +1,28 @@
+spring:
+  kakao:
+    location:
+      search:
+        cafe: /search/blog
+        blog: /search/blog
+        web: /search/web
+    common:
+      rest_api_key: b5781416656ae1eac926f04cfc617a75
+      url: https://dapi.kakao.com/v2
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: 'true'
+        show_sql: 'true'
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    driverClassName: org.h2.Driver
+    password: password
+    username: sa
+    url: jdbc:h2:~/testdb
+  h2:
+    console:
+      path: /h2-console
+      enabled: 'true'
