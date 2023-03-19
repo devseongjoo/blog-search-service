@@ -1,5 +1,8 @@
 package com.example.blogsearchservice.service;
 
+import com.example.blogsearchservice.service.VO.DocumentVO;
+import com.example.blogsearchservice.service.VO.RequestVO;
+import com.example.blogsearchservice.service.VO.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

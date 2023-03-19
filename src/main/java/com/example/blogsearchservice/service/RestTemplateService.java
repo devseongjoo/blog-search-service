@@ -1,5 +1,7 @@
 package com.example.blogsearchservice.service;
 
+import com.example.blogsearchservice.service.VO.RequestVO;
+import com.example.blogsearchservice.service.VO.ResponseVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.HttpClient;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Map;
 
 @Service
 public class RestTemplateService {

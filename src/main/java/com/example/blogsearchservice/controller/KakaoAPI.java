@@ -1,14 +1,11 @@
 package com.example.blogsearchservice.controller;
-import com.example.blogsearchservice.service.DocumentVO;
+import com.example.blogsearchservice.service.VO.DocumentVO;
 import com.example.blogsearchservice.service.KakaoAPIService;
-import com.example.blogsearchservice.service.RequestVO;
-import com.example.blogsearchservice.service.ResponseVO;
+import com.example.blogsearchservice.service.VO.RequestVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import scala.Int;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
