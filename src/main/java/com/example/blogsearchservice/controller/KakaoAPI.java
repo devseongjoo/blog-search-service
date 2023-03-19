@@ -1,14 +1,18 @@
 package com.example.blogsearchservice.controller;
+import com.example.blogsearchservice.service.DocumentVO;
 import com.example.blogsearchservice.service.KakaoAPIService;
+import com.example.blogsearchservice.service.RequestVO;
 import com.example.blogsearchservice.service.ResponseVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import scala.Int;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("/kakao")
 @RestController()
@@ -22,18 +26,21 @@ public class KakaoAPI {
     KakaoAPIService kakaoAPIService;
 
     @GetMapping("/")
-    public String getKakaoHello() {
-        return "Hello Kakao Server";
+    public String getHelloServer() {
+        return "Hello Server";
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseVO> getKakaoBlogSearch(
-            @RequestParam(value = "query", required = false, defaultValue = "") String query) {
-        if(param.isEmpty()) {
-            logger.error("query param empty");
-        }
-        ResponseVO res = kakaoAPIService.getKakaoBlogInfo(location, query);
+    public List<DocumentVO> getKakaoBlogSearch(final @Valid HttpServletRequest req) {
 
-        return ResponseEntity.ok(res);
+        RequestVO requestVO = new RequestVO();
+        requestVO.setQuery(req.getParameter("query"));
+        requestVO.setSort(req.getParameter("sort"));
+        requestVO.setPage(Integer.parseInt(req.getParameter("page")));
+        requestVO.setSize(Integer.parseInt(req.getParameter("size")));
+
+        List<DocumentVO> res = kakaoAPIService.getBlogInfo(requestVO);
+
+        return res;
     }
 }

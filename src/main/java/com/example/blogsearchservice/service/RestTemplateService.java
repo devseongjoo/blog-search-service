@@ -1,5 +1,7 @@
 package com.example.blogsearchservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -33,7 +35,8 @@ public class RestTemplateService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     //Todo: Kakao 이외의 검색 소스가 포함될 수 있도록
-    public ResponseEntity<Map> fetchOpenAPI(String type, String keyword) {
+    public ResponseVO fetchOpenAPI(RequestVO requestVO) throws Exception {
+        ResponseVO responseVO = new ResponseVO();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
 
         factory.setReadTimeout(5000); // read timeout
@@ -48,20 +51,16 @@ public class RestTemplateService {
 
         RestTemplate restTemplate = new RestTemplate(factory);
 
-        String location = null;
-        String query = null;
-        if(type.equals("blog")) {
-            location = locationSearchBlog;
-            query = "이효리";
-        } else if(type.equals("web")) {
-            location = locationSearchWeb;
-            query = "https://brunch.co.kr/@tourism 집짓기";
-        }
+        String location = locationSearchWeb;
+        String query = "이효리";
 
         //<-- Build URI -->
         UriComponents builder = UriComponentsBuilder.fromHttpUrl(kakaoUrl)
                 .path(location)
-                .queryParam("query", query)
+                .queryParam("query", requestVO.getQuery())
+                .queryParam("sort", requestVO.getSort())
+                .queryParam("page", requestVO.getPage())
+                .queryParam("size", requestVO.getSize())
                 .build();
 
         //<-- Http Headers -->
@@ -79,13 +78,23 @@ public class RestTemplateService {
         logger.info(builder.toUri().toString());
         logger.info(builder.toUriString());
 
-        ResponseEntity<Map> responseEntity = restTemplate.exchange(
+        ResponseEntity<String> response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
                 entity,
-                Map.class
+                String.class
         );
 
-        return responseEntity;
+//        throws JsonProcessingException/
+        try {
+            if(response.getStatusCode().value() == 200) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                responseVO = objectMapper.readValue(response.getBody(), ResponseVO.class);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseVO();
+        }
+        return responseVO;
     }
 }

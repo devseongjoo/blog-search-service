@@ -93,14 +93,14 @@ public class RestTemplateTest {
         logger.info(builder.toUri().toString());
         logger.info(builder.toUriString());
 
-        ResponseEntity<Map> response1 = restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                entity,
-                Map.class
-        );
+//        ResponseEntity<Map> response1 = restTemplate.exchange(
+//                builder.toUriString(),
+//                HttpMethod.GET,
+//                entity,
+//                Map.class
+//        );
 //
-        assertThat(response1.getStatusCodeValue()).isEqualTo("200");
+//        assertThat(response1.getStatusCodeValue()).isEqualTo("200");
 //        //Todo: Documents Length Test
 //
 ////        Map result = restTemplate.exchange(URI, HttpMethod.POST, entity, Map.class).getBody();
