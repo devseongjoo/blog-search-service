@@ -22,11 +22,6 @@ public class KakaoAPIController {
     @Autowired
     KakaoService kakaoService;
 
-    @GetMapping("/")
-    public String getHelloServer() {
-        return "Hello Server";
-    }
-
     @GetMapping("/readPagedList")
     public List<DocumentVO> getKakaoBlogSearchPagedList(final @Valid HttpServletRequest req) {
 

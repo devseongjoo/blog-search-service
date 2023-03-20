@@ -2,14 +2,12 @@ package com.example.blogsearchservice.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
 public class HomeController {
 
-    @GetMapping
-    public String index(){
-        return "/index.html";
+    @GetMapping(value =  {"/"})
+    public String forward() {
+        return "forward:/index.html";
     }
 }
