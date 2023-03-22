@@ -1,6 +1,6 @@
-#blog-search-service(multi-module)
+# blog-search-service(multi-module)
 
-##3개 모듈
+## 3개 모듈
 ### common
 #### common entity/vo를 모아둔 module
 ### search-service(http://localhost:8080)
