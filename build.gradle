@@ -54,19 +54,39 @@ subprojects {
 
 project(':common-core') {
 	dependencies {
+		bootJar {
+			enabled = false
+		}
 
+		jar {
+			enabled = true
+		}
 	}
 }
 
 
 project(':search-service') {
 	dependencies {
+		bootJar {
+			enabled = true
+		}
+
+		jar {
+			enabled = false
+		}
 		implementation project(path: ':common-core')
 	}
 }
 
 project(':statistics-service') {
 	dependencies {
+		bootJar {
+			enabled = true
+		}
+
+		jar {
+			enabled = false
+		}
 		implementation project(path: ':common-core')
 		//Jpa
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
