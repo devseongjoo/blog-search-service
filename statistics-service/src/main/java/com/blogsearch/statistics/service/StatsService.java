@@ -25,7 +25,7 @@ public class StatsService {
     }
 
     @Transactional
-    public void increaseCount(String keyword) throws Exception {
+    public void increaseCount(String keyword) {
         try {
             Optional<KeywordCount> entry = keywordCountRepository.findByKeyword(keyword);
             if(entry.isPresent()) {

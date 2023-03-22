@@ -5,6 +5,7 @@ import com.blogsearch.common.domain.ResponseVO;
 import com.blogsearch.common.domain.DocumentVO;
 import com.blogsearch.search.util.Tokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class KakaoService {
     public List<DocumentVO> getBlogInfo(RequestVO requestVO) {
         List<DocumentVO> documents = new ArrayList<DocumentVO>();
         try {
-            ResponseVO responseVO = restTemplateService.fetchOpenAPI(requestVO);
+            ResponseEntity<ResponseVO> response = restTemplateService.fetchKakaoOpenAPI(requestVO);
+            if(response.getStatusCode()
             documents = responseVO.getDocuments();
 
             String keyword = Tokenizer.getKeywordToken(requestVO.getQuery());

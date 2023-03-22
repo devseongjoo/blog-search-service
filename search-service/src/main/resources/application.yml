@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  kakao:
+    LOCATION: /search/blog
+    LOCATION-WEB: /search/web
+    REST_API_KEY: b5781416656ae1eac926f04cfc617a75
+    URL : https://dapi.kakao.com/v2
+  naver:
+    URL: https://openapi.naver.com
+    LOCATION: /v1/search/blog.json
+    CLIENT_ID: G7oMgcW9Wstq0blVC__D
+    CLIENT_SECRET: HAu4AiLwEU
+  statistics:
+    URL: http://localhost:8081
