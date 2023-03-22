@@ -1,7 +1,8 @@
 package com.blogsearch.common.domain;
 
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class RequestVO {

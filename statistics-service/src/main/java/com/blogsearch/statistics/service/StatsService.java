@@ -1,11 +1,13 @@
 package com.blogsearch.statistics.service;
 
+import com.blogsearch.common.domain.KeywordCountDTO;
 import com.blogsearch.statistics.domain.KeywordCount;
 import com.blogsearch.statistics.domain.KeywordCountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,22 +22,10 @@ public class StatsService {
     }
 
     @Transactional
-    public List<Object[]> getTopRatedKeywords() {
-        return keywordCountRepository.findMostSearchedList();
-    }
+    public List<KeywordCount> getTopRatedKeywords() {
 
-    @Transactional
-    public void increaseCount(String keyword) {
-        try {
-            Optional<KeywordCount> entry = keywordCountRepository.findByKeyword(keyword);
-            if(entry.isPresent()) {
-                keywordCountRepository.incrementCount(keyword);
-            } else {
-                KeywordCount updateEntry = new KeywordCount(keyword, 1);
-                keywordCountRepository.save(updateEntry);
-            }
-        } catch(NullPointerException e) {
-            e.printStackTrace();
-        }
+        List<KeywordCount> keywordCountList = keywordCountRepository.findMostSearchedList();
+
+        return keywordCountList;
     }
 }

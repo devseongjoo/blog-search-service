@@ -1,19 +1,24 @@
 package com.blogsearch.search.controller;
+import com.blogsearch.common.domain.KeywordCountDTO;
 import com.blogsearch.common.domain.RequestVO;
 import com.blogsearch.common.domain.DocumentVO;
-import com.blogsearch.search.service.KakaoService;
+import com.blogsearch.search.service.BlogSearchService;
 
 
+import com.blogsearch.search.service.RestTemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/kakao")
+@RequestMapping("/search")
 @RestController()
 public class KakaoAPIController {
 
@@ -22,9 +27,12 @@ public class KakaoAPIController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    KakaoService kakaoService;
+    BlogSearchService blogSearchService;
 
-    @GetMapping("/readPagedList")
+    @Autowired
+    RestTemplateService restTemplateService;
+
+    @GetMapping("/blog/paged")
     public List<DocumentVO> getBlogSearchPagedList(final @Valid HttpServletRequest req) {
 
         RequestVO requestVO = new RequestVO();
@@ -33,8 +41,28 @@ public class KakaoAPIController {
         requestVO.setPage(Integer.parseInt(req.getParameter("page")));
         requestVO.setSize(Integer.parseInt(req.getParameter("size")));
 
-        List<DocumentVO> res = kakaoService.getBlogInfo(requestVO);
+        try {
+            //<-- get blog info -->
+            List<DocumentVO> res = blogSearchService.getBlogInfo(requestVO);
+            return res;
+        } catch(Exception e) {
+            //<-- exception handling -->
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        return res;
+    @GetMapping("/statistics/keywords")
+    public List<KeywordCountDTO> readTopRatedList() {
+        ResponseEntity<List<KeywordCountDTO>> response = restTemplateService.getTopRatedList();
+
+        if(response.getStatusCode() == HttpStatus.OK) {
+            List<KeywordCountDTO> list = response.getBody();
+            if(list.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return list;
+        }
+        return null;
     }
 }
