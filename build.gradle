@@ -2,93 +2,78 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'com.moowork.node' version '1.3.1'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+allprojects {
+	repositories {
+		mavenCentral()
 	}
 }
 
-repositories {
-	mavenCentral()
-}
+subprojects {
 
-dependencies {
-	//Spring & Spring Web
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'junit:junit:4.13.1'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	group = 'com.blogsearch'
+	version = '0.0.1-SNAPSHOT'
 
-	//Jpa
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
-	// RestTemplate
-	implementation 'com.pepegar:hammock-resttemplate_2.13:0.11.3'
+	sourceCompatibility = '11'
 
-	// httpclient
-	implementation 'org.apache.httpcomponents:httpclient:4.5'
-
-	// @Valid
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-	// Lombok
-	annotationProcessor 'org.projectlombok:lombok'
-	compileOnly 'org.projectlombok:lombok'
-
-	// H2
-	runtimeOnly 'com.h2database:h2'
-}
-
-def frontendDir = "$projectDir/src/main/frontend"
-
-sourceSets {
-	main {
-		resources { srcDirs = ["$projectDir/src/main/resources"]
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
 		}
 	}
-}
 
-processResources { dependsOn "copyReactBuildFiles" }
+	//common
+	dependencies {
+		// Spring & Spring Web
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'junit:junit:4.13.1'
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-task installReact(type: Exec) {
-	workingDir "$frontendDir"
-	inputs.dir "$frontendDir"
-	group = BasePlugin.BUILD_GROUP
-	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-		commandLine "npm.cmd", "audit", "fix"
-		commandLine 'npm.cmd', 'install' }
-	else {
-		commandLine "npm", "audit", "fix" commandLine 'npm', 'install'
+		// httpclient
+		implementation 'org.apache.httpcomponents:httpclient:4.5'
+		// RestTemplate
+		implementation 'com.pepegar:hammock-resttemplate_2.13:0.11.3'
+		// Lombok
+		annotationProcessor 'org.projectlombok:lombok'
+		developmentOnly 'org.projectlombok:lombok'
+
+		// @Valid
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
 	}
 }
 
-task buildReact(type: Exec) {
-	dependsOn "installReact"
-	workingDir "$frontendDir"
-	inputs.dir "$frontendDir"
-	group = BasePlugin.BUILD_GROUP
-	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-		commandLine "npm.cmd", "run-script", "build"
-	} else {
-		commandLine "npm", "run-script", "build"
+project(':common-core') {
+	dependencies {
+
 	}
 }
 
-task copyReactBuildFiles(type: Copy) {
-	dependsOn "buildReact"
-	from "$frontendDir/build"
-	into "$projectDir/src/main/resources/static"
+
+project(':search-service') {
+	dependencies {
+		implementation project(path: ':common-core')
+	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+project(':statistics-service') {
+	dependencies {
+		implementation project(path: ':common-core')
+		//Jpa
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		// H2
+		runtimeOnly 'com.h2database:h2'
+	}
 }
+
 
 
