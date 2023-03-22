@@ -19,7 +19,7 @@ public interface KeywordCountRepository extends JpaRepository<KeywordCount, Long
     Optional<KeywordCount> findByKeyword(String keyword);
 
     @Query(value =
-            "SELECT u FROM KeywordCount k ORDER BY k.count LIMIT 10",
+            "SELECT * FROM KEYWORD_COUNT k ORDER BY k.count LIMIT 10",
             nativeQuery = true)
     List<KeywordCount> findMostSearchedList();
 }
